@@ -12,6 +12,8 @@ from tensorflow.keras.models import Model
 from tensorflow.keras import backend as K
 import numpy as np
 
+from tensorflow.keras.datasets import mnist
+import matplotlib.pyplot as plt
 
 class ConvAutoencoder:
     def build(self, height, width, channel):
@@ -51,4 +53,13 @@ class ConvAutoencoder:
 
 if __name__ == '__main__':
     conv_ae = ConvAutoencoder()
-    model = conv_ae.build(200, 100, 3)
+    model = conv_ae.build(28, 28, 1)
+    #model.predict()
+
+    (train_xs, train_ys), (test_xs, test_ys) = mnist.load_data()
+    train_xs = np.expand_dims(train_xs, axis=-1)
+    print (train_xs.shape)
+    pred_xs = model.predict(train_xs)
+    plt.imshow(train_xs[0,:,:,0])
+    plt.show()
+    print(pred_xs[0])
